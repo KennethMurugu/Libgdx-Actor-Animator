@@ -1,12 +1,13 @@
-package com.ravenousgames.cardgame.production;
+package com.zd.kadi.production;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.ravenousgames.cardgame.production.screens.Screen;
+import com.zd.kadi.production.screens.Screen;
+
 
 /**
  * Class provides abstractions for Animating Actors.
- * Debug messages are printed by default. Use {@link setDebug} to change this behaviour
+ * Debug messages are printed by default. Use {@link Screen#setScreenDebug(boolean)}  to change this behaviour
  * @author Kenneth
  * @version 2.0
  */
@@ -15,11 +16,14 @@ public class Animator2 {
     public static final String TAG = Animator2.class.getSimpleName();
 
     private EaseFuncInterface easeFunc;
-	private boolean DEBUG;
+    /**
+     * Show debug messages for the Animator.True by default.
+     */
+	private boolean ANIMATOR_DEBUG;
 
     private Vector2 speed,tmpSpeed, destination;
     public Animator2(){
-		this.DEBUG = true;
+		this.ANIMATOR_DEBUG = true;
         this.speed = new Vector2(10,10);
         this.destination = new Vector2();
         this.tmpSpeed = new Vector2();
@@ -31,7 +35,7 @@ public class Animator2 {
         };
     }
     public Animator2(Vector2 speed){
-		this.DEBUG = true;
+		this.ANIMATOR_DEBUG = true;
         this.speed = speed;
         this.destination = new Vector2();
         this.tmpSpeed = new Vector2();
@@ -43,7 +47,7 @@ public class Animator2 {
         };
     }
     public Animator2(Vector2 speed, EaseFuncInterface easeFunc){
-		this.DEBUG = true;
+		this.ANIMATOR_DEBUG = true;
         this.speed = speed;
         this.destination = new Vector2(0,0);
         this.tmpSpeed = new Vector2(0,0);
@@ -61,8 +65,7 @@ public class Animator2 {
      * @return true if Actor has arrived at destination given
      */
     public boolean move(Actor actor, Vector2 destination, float time){
-		//Screen.debug=DEBUG;
-        //Screen.print(TAG, "[move]");
+		Screen.DEBUG = ANIMATOR_DEBUG;
         boolean arrived = false;
         this.destination = destination;
 
@@ -100,7 +103,7 @@ public class Animator2 {
         Screen.print(TAG, "actor: x, y: "+ actor.getX() +", "+ actor.getY());
         if(arrivedX && arrivedY) forceToDest(actor);
 		
-		//Screen.debug = !DEBUG
+		Screen.DEBUG = !ANIMATOR_DEBUG;
         return arrivedX && arrivedY;
     }
 
@@ -212,7 +215,7 @@ public class Animator2 {
     }
 	
 	public void setDebug(boolean debug){
-		this.DEBUG = debug;
+		this.ANIMATOR_DEBUG = debug;
 	}
 
     private float easeIn_Quad(float t) {return 2 * t * t;}
